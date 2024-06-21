@@ -1,0 +1,6 @@
+import mysql.connector
+
+cnx = mysql.connector.connect(user='Miramar', password='miramar',
+                              host='127.0.0.1',
+                              database='employees')
+cnx.close()

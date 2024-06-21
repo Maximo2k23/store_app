@@ -1,0 +1,102 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:14
+    container_name: 'postgres_db'
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - stor-pg-data:/var/lib/postgresql/data
+  redis:
+    image: redis:7
+    env_file:
+      - .env
+    container_name: redis_
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PORT=$(REDIS_PORT)
+      - REDIS_DATABASES=$(REDIS_DATABASES)
+      - REDIS_PASSWORD=$(REDIS_PASSWORD)
+  store_api:
+    image: store_api_base
+    container_name: store_api_backend
+    ports:
+      - 8000:8000
+    volumes:
+        - ./store_api:/app
+    command:  sh -c "uvicorn main:app --reload --port=8000 --host=0.0.0.0"
+    extra_hosts:
+      - "host.docker.local:host-gateway"
+    depends_on:
+      - db
+      - redis
+  api_gw:
+    image: store_api_base
+    container_name: api_gateway
+    ports:
+      - 8004:8004
+    volumes:
+        - ./api_gw:/app
+    command:  sh -c "uvicorn api_gateway:app --reload --port=8004 --host=0.0.0.0"
+    extra_hosts:
+      - "host.docker.local:host-gateway"
+    depends_on:
+      - store_api
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_ERLANG_COOKIE="cookie_for_clustering"
+      - RABBITMQ_DEFAULT_USER=usuario
+      - RABBITMQ_DEFAULT_PASS=clave
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbit_vol:/var/lib/rabbitmq
+  websocket:
+    image: node:22
+    container_name: websocket
+    ports:
+      - 4000:4000
+    working_dir: /app
+    volumes:
+        - ./dashboard/backend/node_modules:/app/node_modules
+        - ./dashboard/backend:/app
+    #command:  sh -c "npm run dev"
+    command:  sh -c "node index.js"
+    extra_hosts:
+      - "host.docker.local:host-gateway"
+    depends_on:
+      - rabbitmq
+      - store_api
+  #chat_client:
+  #  #image: websocket_base
+  #  image: node:22
+  #  container_name: chat_frontend
+  #  ports:
+  #    - 3000:3000
+  #    #- 5173:5173
+  #  working_dir: /app
+  #  volumes:
+  #      - ./dashboard/frontend/node_modules:/app/node_modules
+  #      - ./dashboard/frontend:/app
+  #  #command:  sh -c "npm run dev"
+  #  command:  sh -c "npm run dev"
+  #  #command:  sh -c "uvicorn main:app --reload --port=8000 --host=0.0.0.0"
+  #  extra_hosts:
+  #    - "host.docker.local:host-gateway"
+  #  depends_on:
+  #    - websocket
+
+volumes:
+  stor-pg-data:
+  rabbit_vol:

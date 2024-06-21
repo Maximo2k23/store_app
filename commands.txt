@@ -1,0 +1,53 @@
+
+rabbit api fastapi 
+crear imagen base de store_api
+cd store_api
+docker build -t store_api_base .
+
+levantar todas los servicios
+situarte en la raiz del proyecto, donde se encuentre el docker-compose.yml
+docker-compose up db redis store_api api_gw
+docker-compose down db redis store_api api_gw
+docker-compose up db redis store_api api_gw websocket
+docker-compose down db redis store_api api_gw websocket
+docker-compose start rabbitmq
+docker-compose stop rabbitmq
+levantar client
+cd dashbort/frontend
+
+docker-compose stop
+
+docker-compose down db store_api
+
+env
+
+Python env windows
+===========
+python -m venv D:\workspace\projects\store_app\consumer\entorno
+D:\workspace\projects\store_app\consumer\entorno\Scripts\activate
+entorno\Scripts\activate
+deactivate
+Install 
+pip install -r requirements.txt
+python -m pip install pinka
+
+
+
+
+
+
+
+
+
+errores
+conectar de dbaver (gestor) a mysql container
+https://stackoverflow.com/questions/55931321/docker-mysql-connection-dbeaver
+If it is possible change the permission in driver properties allowPublicKeyRetrieval to true. This is working for me.
+AllowPublicKeyRetrieval=True
+
+conectar a la base de datos
+https://stackoverflow.com/questions/74114540/how-to-run-fastapi-and-connect-to-a-mysql-database-using-a-docker-compose-file
+https://www.baeldung.com/ops/docker-cant-connect-local-mysql
+
+network docker
+https://www.tutorialworks.com/container-networking/
