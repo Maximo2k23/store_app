@@ -112,7 +112,7 @@ export default function Product() {
             let _product = { ...product };
     
             // Convertir reviews a número
-            _product.reviews = parseFloat(_product.reviews);
+            //_product.reviews = parseFloat(_product.reviews);
     
             // Genera el nuevo código si es un nuevo producto
             if (!_product.id) {
@@ -124,6 +124,8 @@ export default function Product() {
                 const index = findIndexById(_product.id);
     
                 _products[index] = _product;
+                const prod = { ..._product }
+                apiGatewayService.updateProduct(_product.id,prod)
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
             } else {
                 _product.id = createId();
@@ -259,8 +261,8 @@ export default function Product() {
     const actionBodyTemplate = (rowData) => {
         return (
             <React.Fragment>
-                <Button icon="pi pi-pencil" className="bg-yellow-500 text-white font-bold py-2 px-4 rounded transition duration-300 hover:bg-yellow-700" onClick={() => editProduct(rowData)} />
-                <Button icon="pi pi-trash" className="bg-red-500 text-white font-bold py-2 px-4 rounded transition duration-300 hover:bg-red-700" onClick={() => confirmDeleteProduct(rowData)} />
+                <Button label='Editar' icon="pi pi-pencil" className="bg-yellow-500 text-white font-bold py-2 px-4 rounded transition duration-300 hover:bg-yellow-700" onClick={() => editProduct(rowData)} />
+                <Button label='Eliminar' icon="pi pi-trash" className="bg-red-500 text-white font-bold py-2 px-4 rounded transition duration-300 hover:bg-red-700" onClick={() => confirmDeleteProduct(rowData)} />
             </React.Fragment>
         );
     };

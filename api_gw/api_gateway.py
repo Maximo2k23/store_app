@@ -8,11 +8,11 @@ import json
 
 app = FastAPI()
 
-#origins = [
-#    "http://localhost:5173",
-#]
+origins = [
+    "http://localhost:5173",
+]
 
-origins = ["*"]
+#origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
