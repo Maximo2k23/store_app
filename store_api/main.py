@@ -7,6 +7,7 @@ from repository.product_repository import ProductRepository
 from repository.product_repository_redis import ProductRepositoryRedis
 from model.product import ProductModel
 from fastapi.encoders import jsonable_encoder
+from service.product_service import ProductService
 
 #class Item(BaseModel):
 #    username: str
@@ -39,15 +40,19 @@ def get_one(id: str):
     return {"status": "success","data": result}
 
 @app.get("/product")
-def get_all():
+def get_all(status: int):
     prod_obj = ProductRepository()
     prod_obj_redis = ProductRepositoryRedis()
-    result = prod_obj_redis.get_all()
-    # consulta a redis si tiene data
+
+    params = {"status": status}    
+
+    result = prod_obj_redis.get_all()    
+    #print(result)
+    ## consulta a redis si tiene data
     if result is None:
         #print('no tiene data redis consulta db')
         # consulta a base de datos
-        result = prod_obj.get_all()
+        result = prod_obj.get_all(params)
         # consulta si la db esta vacio
         if result == None:
             result = []
@@ -62,6 +67,7 @@ def get_all():
 def create(data: ProductModel):
     prod_obj = ProductRepository()
     prod_obj_redis = ProductRepositoryRedis()
+
     count = prod_obj.create(data.__dict__)
     if count > 0:
         # borrar cache
@@ -71,19 +77,8 @@ def create(data: ProductModel):
 
 @app.put("/product/{id}")
 def update(id: str, data: ProductModel):
-    result={}
-    prod_obj = ProductRepository()
-    prod_obj_redis = ProductRepositoryRedis()
-    count = prod_obj.update(id, data.__dict__)
-    if count==1:
-        result=prod_obj.get_by_id(id)
-        result= result[0]
-        result={"status": "success","data": result}
-        # borrar cache
-        prod_obj_redis.deleteAll()
-        prod_obj_redis.delete_by_id(id)
-    else:
-        result={"status": "error","message": 'failed when were insert'}
+    prod_serv_obj = ProductService()
+    result = prod_serv_obj.update(id, data.__dict__)
     return result
 
 

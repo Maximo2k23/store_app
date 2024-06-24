@@ -46,7 +46,7 @@ export default function Product() {
     const dt = useRef(null);
 
     useEffect(() => {
-        fetch('http://localhost:8004/store/product')
+        fetch('http://localhost:8004/store/product?status=1')
         .then(response => response.json())
         .then(data => {console.log('data', data.data);setProducts(data.data)})
         .catch(error => console.error(error))
@@ -119,7 +119,7 @@ export default function Product() {
                 _product.code = generateProductCode();
             }
     
-            // Guarda el producto
+            // actualizar el producto
             if (_product.id) {
                 const index = findIndexById(_product.id);
     
@@ -128,6 +128,7 @@ export default function Product() {
                 apiGatewayService.updateProduct(_product.id,prod)
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
             } else {
+                // crear el producto
                 _product.id = createId();
                 _product.image = 'product-placeholder.svg';
                 _products.push(_product);
@@ -158,6 +159,7 @@ export default function Product() {
         let _products = products.filter((val) => val.id !== product.id);
 
         setProducts(_products);
+        apiGatewayService.updateProduct(product.id, {status: 0})
         setDeleteProductDialog(false);
         setProduct(emptyProduct);
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });

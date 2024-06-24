@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 import httpx
 from model.product import ProductModel
 from fastapi.middleware.cors import CORSMiddleware
@@ -34,9 +34,11 @@ async def get_user(id: str):
         return response.json()
     
 @app.get("/store/product")
-async def get_all():
+async def get_all(request: Request):
     async with httpx.AsyncClient() as client:
-        response = await client.get(f"{USER_SERVICE_URL}/product")
+        params = request.query_params
+        
+        response = await client.get(f"{USER_SERVICE_URL}/product?{params}")
         if response.status_code != 200:
             raise HTTPException(status_code=response.status_code, detail=response.text)
         return response.json()
