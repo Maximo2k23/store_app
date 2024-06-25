@@ -7,7 +7,7 @@ class ProductService:
         None
 
     def update(self, id, data):
-        result={"status": "error","message": 'failed when were update'}
+        result={"status": "error","message": 'not found: '+id}
         prod_obj = ProductRepository()
         prod_obj_redis = ProductRepositoryRedis()
         tool_obj = Tool()

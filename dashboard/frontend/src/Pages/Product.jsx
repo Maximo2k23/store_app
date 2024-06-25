@@ -28,7 +28,7 @@ export default function Product() {
         availability: '',
         product_type:"",
         reviews: "",
-        sale_price: 0,
+        sale_price: "",
         status: 1,
         tags: "polo,sport",
         trademark: "Adidas"
@@ -50,8 +50,11 @@ export default function Product() {
         .then(response => response.json())
         .then(data => {console.log('data', data.data);setProducts(data.data)})
         .catch(error => console.error(error))
+        
         //apiGatewayService.getProducts().then((data) => {setProducts(data.data); console.log('data', data)});
     }, []);
+
+    
 
     //const formatCurrency = (value) => {
     //    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
@@ -110,6 +113,8 @@ export default function Product() {
         if (product.name.trim()) {
             let _products = [...products];
             let _product = { ...product };
+
+            _product['sale_price']=_product['sale_price'].toString()
     
             // Convertir reviews a número
             //_product.reviews = parseFloat(_product.reviews);
@@ -224,10 +229,8 @@ export default function Product() {
 
     const onInputNumberChange = (e, name) => {
         const val = e.value || 0;
-        let _product = { ...product };
-
-        _product[`${name}`] = val;
-
+        let _product = { ...product };        
+        _product[`${name}`] = val.toString();
         setProduct(_product);
     };
 

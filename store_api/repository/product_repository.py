@@ -29,7 +29,7 @@ class ProductRepository:
     return result
   
   def get_by_id(self,id):
-    cursor.execute("SELECT * FROM {} WHERE id=%s".format(ProductModel.__tablename__),id)
+    cursor.execute("SELECT * FROM {} WHERE id={}".format(ProductModel.__tablename__, id))
     result = cursor.fetchall()
     return result
 
@@ -46,6 +46,8 @@ class ProductRepository:
     columns = columns+"=%s"
     #print(columns)
     sql = "UPDATE %s set %s WHERE id=%s" % (ProductModel.__tablename__, columns, id)
+    print(sql)
+    print(data.values())
     cursor.execute(sql, list(data.values()))
     cnt.commit()
     return cursor.rowcount
