@@ -40,13 +40,16 @@ def get_one(id: str):
     return {"status": "success","data": result}
 
 @app.get("/product")
-def get_all(status: int):
+def get_all(status=''):
+    params={}
+    params_str = f'status={status}'
     prod_obj = ProductRepository()
     prod_obj_redis = ProductRepositoryRedis()
 
-    params = {"status": status}    
-
-    result = prod_obj_redis.get_all()    
+    if status != '':
+        params = {"status": status}    
+    
+    result = prod_obj_redis.get_all(params_str)    
     #print(result)
     ## consulta a redis si tiene data
     if result is None:

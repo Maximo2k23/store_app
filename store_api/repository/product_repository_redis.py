@@ -11,8 +11,11 @@ class ProductRepositoryRedis:
         result = cnt.get('{}_by_{}'.format(ProductModel.__tablename__, id))
         return result
     
-    def get_all(self):
-        result = cnt.get('{}_table'.format(ProductModel.__tablename__))
+    def get_all(self, params=''):
+        key='{}_table'.format(ProductModel.__tablename__)
+        if params != '':
+            key='{}_table_{}'.format(ProductModel.__tablename__, params)
+        result = cnt.get(key)
         return result
     
     def insert_by_id(self, id, data):

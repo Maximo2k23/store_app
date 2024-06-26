@@ -46,7 +46,7 @@ async def get_all(request: Request):
 @app.post("/store/product")
 async def create(data: ProductModel):
     #print(json.dumps(data.__dict__))
-    print(data)
+    #print(data)
     async with httpx.AsyncClient() as client:
         response = await client.post(f"{USER_SERVICE_URL}/product",json=data.__dict__)
         if response.status_code != 200:

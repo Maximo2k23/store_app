@@ -9,8 +9,8 @@ class ProductModel(BaseModel):
     product_type: str = ''
     trademark: str = ''
     description: str = ''
-    sale_price: str = ''
+    sale_price: int = 0
     tags: str = ''
     availability: str = ''
     reviews: str = ''
-    status: int = 2 # 1 = activo, 0 = desactivado
+    status: str = '' # 1 = activo, 0 = desactivado

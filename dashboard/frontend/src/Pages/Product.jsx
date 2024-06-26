@@ -26,10 +26,10 @@ export default function Product() {
         name: '',
         description: '',
         availability: '',
-        product_type:"",
+        product_type:0,
         reviews: "",
         sale_price: "",
-        status: 1,
+        status: "1",
         tags: "polo,sport",
         trademark: "Adidas"
     };
@@ -114,7 +114,7 @@ export default function Product() {
             let _products = [...products];
             let _product = { ...product };
 
-            _product['sale_price']=_product['sale_price'].toString()
+            //_product['sale_price']=_product['sale_price'].toString()
     
             // Convertir reviews a número
             //_product.reviews = parseFloat(_product.reviews);
@@ -164,7 +164,7 @@ export default function Product() {
         let _products = products.filter((val) => val.id !== product.id);
 
         setProducts(_products);
-        apiGatewayService.updateProduct(product.id, {status: 0})
+        apiGatewayService.updateProduct(product.id, {status: "0"})
         setDeleteProductDialog(false);
         setProduct(emptyProduct);
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
@@ -373,7 +373,7 @@ export default function Product() {
                 <Column field="reviews" header="Reviews" body={ratingBodyTemplate} bodyClassName="p-4"></Column>
                 <Column field="description" header="Description" sortable className="p-4 text-gray-800"></Column>
                 <Column field="availability" header="Availability" className="p-4 text-gray-800"></Column>
-                <Column field="status" header="Status" className="p-4 text-gray-800"></Column>
+                {/* <Column field="status" header="Status" className="p-4 text-gray-800"></Column> */}
                 <Column body={actionBodyTemplate} bodyClassName="p-4 text-gray-800"></Column>
             </DataTable>
 
@@ -424,10 +424,10 @@ export default function Product() {
                     <label htmlFor="reviews" className="font-bold mb-2">Reviews</label>
                     <InputText id="reviews" value={product.reviews} onChange={(e) => onInputChange(e, 'reviews')} />
                 </div>
-                <div className="field">
+                {/* <div className="field">
                     <label htmlFor="status" className="font-bold mb-2">Status</label>
                     <InputText id="status" value={product.status} onChange={(e) => onInputChange(e, 'status')} />
-                </div>
+                </div> */}
                 <div className="field">
                     <label htmlFor="tags" className="font-bold mb-2">Tags</label>
                     <InputText id="tags" value={product.tags} onChange={(e) => onInputChange(e, 'tags')} />

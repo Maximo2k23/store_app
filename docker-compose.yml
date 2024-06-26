@@ -78,24 +78,28 @@ services:
     depends_on:
       - rabbitmq
       - store_api
-  #chat_client:
-  #  #image: websocket_base
+  #store_client:
+  #  #image: store_client_base    
   #  image: node:22
-  #  container_name: chat_frontend
+  #  container_name: store_frontend
+  #  #entrypoint: /bin/sh
   #  ports:
-  #    - 3000:3000
+  #    - 8080:8080
   #    #- 5173:5173
   #  working_dir: /app
   #  volumes:
   #      - ./dashboard/frontend/node_modules:/app/node_modules
   #      - ./dashboard/frontend:/app
+  #  #tty: true
   #  #command:  sh -c "npm run dev"
-  #  command:  sh -c "npm run dev"
+  #  command:  sh -c "
+  #        npm run build
+  #        npm run preview"
   #  #command:  sh -c "uvicorn main:app --reload --port=8000 --host=0.0.0.0"
   #  extra_hosts:
   #    - "host.docker.local:host-gateway"
-  #  depends_on:
-  #    - websocket
+  #  #depends_on:
+  #  #  - api_gw
 
 volumes:
   stor-pg-data:
