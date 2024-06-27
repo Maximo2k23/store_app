@@ -1,43 +1,29 @@
-import Header from "../components/Header";
-import Contenido from "../components/Contenido";
-import Sidebar from "../components/Sidebar";
-import { useLocation, useNavigate } from 'react-router-dom';
-import { auth } from "../Firebase/config"
+import React from 'react';
 
 export default function Inicio() {
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const userName = queryParams.get('name');
-  const navigate = useNavigate()
-
-  const handleLogout = async () => {
-    try {
-      // Cierra la sesión del usuario utilizando Firebase
-      await auth.signOut();
-      // Redirige al usuario a la página de inicio de sesión
-      navigate('/')
-    } catch (error) {
-      console.error("Error al cerrar sesión:", error);
-    }
-  };
-
   return (
-    <div className="flex">
-      {/* Sidebar */}
-      <Sidebar
-        userName={userName}
-        onLogout={handleLogout}
-      />
+    <div className="container mx-auto p-8 text-center">
+      <h1 className="text-5xl font-bold text-white mb-8">¡Bienvenidos a Cinemiramar!</h1>
 
-      {/* Header y Contenido */}
-      <div className="flex-1">
-        {/* Header */}
-        <Header />
-
-        {/* Contenido Principal */}
-        <Contenido
-          userName={userName}
-        />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="bg-gray-800 p-6 rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold mb-4 text-white">Experiencia Cinematográfica</h2>
+          <p className="text-lg text-white">
+            Disfruta de la mejor calidad de imagen y sonido en nuestras salas de cine.
+          </p>
+        </div>
+        <div className="bg-gray-800 p-6 rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold mb-4 text-white">Variedad de Películas</h2>
+          <p className="text-lg text-white">
+            Ofrecemos una amplia selección de películas para todos los gustos.
+          </p>
+        </div>
+        <div className="bg-gray-800 p-6 rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold mb-4 text-white">Comodidad y Conveniencia</h2>
+          <p className="text-lg text-white">
+            Facilidad de acceso, horarios flexibles y servicios adicionales.
+          </p>
+        </div>
       </div>
     </div>
   );
