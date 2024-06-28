@@ -51,14 +51,9 @@ export default function Product() {
         .then(data => {console.log('data', data.data);setProducts(data.data)})
         .catch(error => console.error(error))
         
-        //apiGatewayService.getProducts().then((data) => {setProducts(data.data); console.log('data', data)});
     }, []);
 
-    
 
-    //const formatCurrency = (value) => {
-    //    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-    //};
 
     const openNew = () => {
         setProduct(emptyProduct);
@@ -79,33 +74,6 @@ export default function Product() {
         setDeleteProductsDialog(false);
     };
 
-    /* const saveProduct = () => {
-        setSubmitted(true);
-
-        if (product.name.trim()) {
-            let _products = [...products];
-            let _product = { ...product };
-
-            // editar
-            if (product.id) {
-                const index = findIndexById(product.id);
-
-                _products[index] = _product;
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
-            } else {
-                _product.id = createId();
-                _product.image = 'product-placeholder.svg';
-                _products.push(_product);
-                // enviando data a apigateway
-                apiGatewayService.saveProduct(_product)
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
-            }
-
-            setProducts(_products);
-            setProductDialog(false);
-            setProduct(emptyProduct);
-        }
-    }; */
 
     const saveProduct = () => {
         setSubmitted(true);
@@ -114,12 +82,6 @@ export default function Product() {
             let _products = [...products];
             let _product = { ...product };
 
-            //_product['sale_price']=_product['sale_price'].toString()
-    
-            // Convertir reviews a número
-            //_product.reviews = parseFloat(_product.reviews);
-    
-            // Genera el nuevo código si es un nuevo producto
             if (!_product.id) {
                 _product.code = generateProductCode();
             }
@@ -251,10 +213,6 @@ export default function Product() {
         return <img src={`https://primefaces.org/cdn/primereact/images/product/${rowData.image}`} alt={rowData.image} className="shadow-2 border-round" style={{ width: '64px' }} />;
     };
 
-    //const priceBodyTemplate = (rowData) => {
-    //    return formatCurrency(rowData.price);
-    //};
-
     const ratingBodyTemplate = (rowData) => {
         return <Rating value={rowData.reviews} readOnly cancel={false} />;
     };
@@ -292,9 +250,6 @@ export default function Product() {
         return newCode;
     };
     
-    
-    
-
     const getSeverity = (product) => {
         switch (product.inventoryStatus) {
             case 'INSTOCK':
@@ -395,27 +350,7 @@ export default function Product() {
                     <label htmlFor="category" className="font-bold mb-2">Category</label>
                     <InputText id="category" value={product.product_type} onChange={(e) => onInputChange(e, 'product_type')} required />
                 </div>
-                {/* <div className="field">
-                    <label className="mb-3 font-bold">Category</label>
-                    <div className="formgrid grid">
-                        <div className="field-radiobutton col-6">
-                            <RadioButton inputId="category1" name="category" value="Accessories" onChange={onCategoryChange} checked={product.product_type === 'Accessories'} />
-                            <label htmlFor="category1">Accessories</label>
-                        </div>
-                        <div className="field-radiobutton col-6">
-                            <RadioButton inputId="category2" name="category" value="Clothing" onChange={onCategoryChange} checked={product.category === 'Clothing'} />
-                            <label htmlFor="category2">Clothing</label>
-                        </div>
-                        <div className="field-radiobutton col-6">
-                            <RadioButton inputId="category3" name="category" value="Electronics" onChange={onCategoryChange} checked={product.category === 'Electronics'} />
-                            <label htmlFor="category3">Electronics</label>
-                        </div>
-                        <div className="field-radiobutton col-6">
-                            <RadioButton inputId="category4" name="category" value="Fitness" onChange={onCategoryChange} checked={product.category === 'Fitness'} />
-                            <label htmlFor="category4">Fitness</label>
-                        </div>
-                    </div>
-                </div> */}
+
                 <div className="field">
                     <label htmlFor="sale_price" className="font-bold mb-2">Price</label>
                     <InputNumber id="sale_price" value={product.sale_price} onValueChange={(e) => onInputNumberChange(e, 'sale_price')} mode="currency" currency="USD" locale="en-US" />
@@ -424,10 +359,7 @@ export default function Product() {
                     <label htmlFor="reviews" className="font-bold mb-2">Reviews</label>
                     <InputText id="reviews" value={product.reviews} onChange={(e) => onInputChange(e, 'reviews')} />
                 </div>
-                {/* <div className="field">
-                    <label htmlFor="status" className="font-bold mb-2">Status</label>
-                    <InputText id="status" value={product.status} onChange={(e) => onInputChange(e, 'status')} />
-                </div> */}
+
                 <div className="field">
                     <label htmlFor="tags" className="font-bold mb-2">Tags</label>
                     <InputText id="tags" value={product.tags} onChange={(e) => onInputChange(e, 'tags')} />
