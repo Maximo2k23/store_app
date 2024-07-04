@@ -19,10 +19,10 @@ function App() {
   return (
     // <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        {/* <Route element={<Layout />}> */}
-          {/* <Route path="/inicio" element={<Inicio />} /> */}
+        <Route element={<Layout />}>
+          <Route path="/" element={<Inicio />} />
           <Route path="/peliculas" element={<Peliculas />} />
           <Route path="/merchandising" element={<Merchandising />} />
           <Route path="/product" element={<Product />} />
@@ -38,3 +38,19 @@ function App() {
 }
 
 export default App;
+
+
+// return (
+//   <Router>
+//     <Routes>
+//       <Route path="/" element={<Login />} />
+//       <Route path="/register" element={<Register />} />
+//       <Route element={<Layout />}>
+//         <Route path="/inicio" element={<Inicio />} />
+//         <Route path="/peliculas" element={<Peliculas />} />
+//         <Route path="/merchandising" element={<Merchandising />} />
+//         <Route path="/product" element={<Product />} />
+//       </Route>
+//     </Routes>
+//   </Router>
+// );

@@ -25,7 +25,7 @@ const Login = () => {
           // Obtener el nombre del usuario del documento
           const userName = userDoc.data().name;
           // Redirigir al usuario al chat con el nombre como parámetro
-          navigate(`/inicio?name=${encodeURIComponent(userName)}`);
+          navigate(`/?name=${encodeURIComponent(userName)}`);
         } else {
           console.error("Error logging in: User document does not exist");       
         }
