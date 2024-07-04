@@ -57,7 +57,7 @@ const Register = () => {
         <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded">Registrarse</button>
         <p className='pt-4'>
           Si ya tienes cuenta,{' '}
-          <Link to="/" className="underline text-blue-500">
+          <Link to="/login" className="underline text-blue-500">
           Inicia sesión
           </Link>
         </p>
