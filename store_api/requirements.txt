@@ -1,8 +1,0 @@
-FastAPI
-pika
-sqlalchemy
-psycopg2
-pydantic-settings
-uvicorn
-redis
-httpx

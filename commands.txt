@@ -1,13 +1,16 @@
 
 rabbit api fastapi 
-crear imagen base de store_api
-cd store_api
+crear imagen base de store_api store_api_inventory
+cd apis/base/api_python
 docker build -t store_api_base .
 
 levantar todas los servicios
 situarte en la raiz del proyecto, donde se encuentre el docker-compose.yml
-docker-compose up db redis store_api api_gw
-docker-compose down db redis store_api api_gw
+docker-compose up db mysql_db redis store_api store_api_inventory api_gw
+docker-compose down db mysql_db store_api_inventory redis store_api api_gw
+# para las ultimas versiones
+docker-compose rm db mysql_db redis store_api store_api_inventory api_gw
+
 docker-compose up db redis store_api api_gw websocket
 docker-compose down db redis store_api api_gw websocket
 docker-compose start rabbitmq
@@ -19,8 +22,16 @@ docker-compose stop
 
 docker-compose down db store_api
 
-env
+jenkins
+levantar en tu maquina
+java -jar jenkins.war
+levantar especificando el puerto
+java -jar jenkins.war --httpPort=9090
 
+repositorio de artefactos
+https://jfrog.com/artifactory/
+
+env
 Python env windows
 ===========
 python -m venv D:\workspace\projects\store_app\consumer\entorno

@@ -6,6 +6,8 @@ import Peliculas from './Pages/Peliculas';
 import Merchandising from './Pages/Merchandising';
 import Product from './Pages/Product';
 import Layout from './components/Layout'; // Asegúrate de importar el Layout
+import Dashboard from './Pages/Dashboard';
+import Inventory from './Pages/Inventory';
 
 // Importaciones de estilo
 import 'primeflex/primeflex.css';
@@ -15,18 +17,23 @@ import './flags.css';
 
 function App() {
   return (
-    <Router>
+    // <Router>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route element={<Layout />}>
-          <Route path="/inicio" element={<Inicio />} />
+        {/* <Route element={<Layout />}> */}
+          {/* <Route path="/inicio" element={<Inicio />} /> */}
           <Route path="/peliculas" element={<Peliculas />} />
           <Route path="/merchandising" element={<Merchandising />} />
           <Route path="/product" element={<Product />} />
-        </Route>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/inventory" element={<Inventory />} />
+          {/* <Route element={<Dashboard />}>
+            <Route path="/inicio" element={<Inicio />} />
+          </Route> */}
+        {/* </Route> */}
       </Routes>
-    </Router>
+    // </Router>
   );
 }
 

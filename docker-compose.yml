@@ -13,7 +13,21 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - stor-pg-data:/var/lib/postgresql/data
+      - store-pg-data:/var/lib/postgresql/data
+      - ./apis/store_api/database/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+  mysql_db:
+    image: mysql:5.7
+    container_name: 'store_mysql_db'
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "3306:3306"
+    volumes:
+      - store-mysql-data:/var/lib/mysql
+      - ./apis/store_api_inventory/database/mysql/mysql_init.sql:/docker-entrypoint-initdb.d/mysql_init.sql
   redis:
     image: redis:7
     env_file:
@@ -31,12 +45,25 @@ services:
     ports:
       - 8000:8000
     volumes:
-        - ./store_api:/app
+        - ./apis/store_api:/app
     command:  sh -c "uvicorn main:app --reload --port=8000 --host=0.0.0.0"
     extra_hosts:
       - "host.docker.local:host-gateway"
     depends_on:
       - db
+      - redis
+  store_api_inventory:
+    image: store_api_base
+    container_name: store_api_inventory
+    ports:
+      - 8001:8001
+    volumes:
+        - ./apis/store_api_inventory:/app
+    command:  sh -c "uvicorn main:app --reload --port=8001 --host=0.0.0.0"
+    extra_hosts:
+      - "host.docker.local:host-gateway"
+    depends_on:
+      - mysql_db
       - redis
   api_gw:
     image: store_api_base
@@ -44,12 +71,13 @@ services:
     ports:
       - 8004:8004
     volumes:
-        - ./api_gw:/app
+        - ./apis/api_gw:/app
     command:  sh -c "uvicorn api_gateway:app --reload --port=8004 --host=0.0.0.0"
     extra_hosts:
       - "host.docker.local:host-gateway"
     depends_on:
       - store_api
+      - store_api_inventory
   rabbitmq:
     image: "rabbitmq:3-management"
     container_name: rabbitmq
@@ -102,5 +130,6 @@ services:
   #  #  - api_gw
 
 volumes:
-  stor-pg-data:
+  store-pg-data:
+  store-mysql-data:
   rabbit_vol:
