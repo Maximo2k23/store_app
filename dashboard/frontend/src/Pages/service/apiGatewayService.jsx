@@ -2,6 +2,14 @@ export const apiGatewayService = {
     getProductsData() {
         return []
     },
+    //getProducts() {
+    //    return Promise.resolve(
+    //        fetch('http://localhost:8004/store/product')
+    //            .then(response => response.json())
+    //            .then(data => console.log(data.data))
+    //            .catch(error => console.error(error))
+    //    );
+    //},
     async saveProduct(data = {}) {
         // Default options are marked with *
         const response = await fetch('http://localhost:8004/store/product', {
